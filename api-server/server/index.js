@@ -25,7 +25,13 @@ if (sentry.dns === 'dsn_from_sentry_dashboard') {
   Sentry.init({
     dsn: sentry.dns,
     beforeSend(event, hint) {
-      return isHandledError(hint.originalException) ? null : event;
+      log('REPORTING TO SENTRY', hint.originalException.message);
+      log('EVENT', event);
+      log('ishandled?', isHandledError(hint.originalException));
+      // DEBUG: returning null stops the event from being reported to Sentry
+      return null;
+      // DEBUG: use the next return to send to Sentry
+      // return isHandledError(hint.originalException) ? null : event;
     }
   });
   log('Sentry initialized');
